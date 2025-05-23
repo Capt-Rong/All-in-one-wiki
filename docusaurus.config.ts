@@ -6,7 +6,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "All-in-One Wiki",
-  tagline: "All-in-One Wiki",
+  tagline: "All-in-One Wiki is a knowledge base for all your needs",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
