@@ -1,0 +1,44 @@
+# Debounce
+
+## Metaphor: The Lazy Doorman
+
+Imagine a doorman who's supposed to open the door every time someone rings the bell. But to avoid opening the door too often, he waits a few seconds to see if more people come — and only opens the door once, after the last ring.
+
+This is debounce: Only do the action after things have stopped happening for a while.
+
+## Definition
+
+Debouncing is a technique to limit how often a function is called, especially during rapid, repeated events like:
+
+- Typing in a search box
+- Resizing the window
+- Scrolling
+
+It waits for a pause in events before running your function.
+
+## How It Works
+
+```ts
+thisfunction debounce(callback, delay) {
+  let timerId;
+  return function (...args) {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      callback.apply(this, args);
+    }, delay);
+  };
+}
+```
+
+```ts
+const searchBox = document.querySelector("input");
+
+const debouncedValidate = debounce((value) => {
+  console.log("Validating:", value);
+}, 300);
+
+searchBox?.addEventListener("input", (e) => {
+  const value = (e.target as HTMLInputElement).value;
+  debouncedValidate(value); // only runs after user pauses typing
+});
+```
