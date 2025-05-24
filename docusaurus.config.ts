@@ -5,8 +5,8 @@ import type * as Preset from "@docusaurus/preset-classic";
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: "All-in-One Wiki",
-  tagline: "All-in-One Wiki",
+  title: "From Zero to One",
+  tagline: "The Best Roadmap and Wiki for Full Stack Development",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -28,7 +28,15 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: ["en", "zh"],
+    localeConfigs: {
+      en: {
+        label: "English",
+      },
+      zh: {
+        label: "中文",
+      },
+    },
   },
 
   presets: [
@@ -76,14 +84,18 @@ const config: Config = {
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
           position: "left",
+          sidebarId: "tutorialSidebar",
           label: "Tutorial",
         },
         { to: "/blog", label: "Blog", position: "left" },
         {
           href: "https://github.com/facebook/docusaurus",
           label: "GitHub",
+          position: "right",
+        },
+        {
+          type: "localeDropdown",
           position: "right",
         },
       ],
