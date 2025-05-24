@@ -1,0 +1,575 @@
+---
+sidebar_position: 2
+---
+
+# JavaScript Callbacks
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Understanding Callbacks](#understanding-callbacks)
+- [Callback Patterns](#callback-patterns)
+- [Error Handling](#error-handling)
+- [Callback Hell](#callback-hell)
+- [Common Use Cases](#common-use-cases)
+- [Exercises](#exercises)
+- [Resources](#resources)
+
+## Introduction
+
+Callbacks are functions that are passed as arguments to other functions and are executed after the main function has finished its execution. They are a fundamental concept in JavaScript's asynchronous programming model and are essential for handling operations that take time to complete.
+
+## Understanding Callbacks
+
+### Basic Callback Example
+
+```javascript
+function fetchData(callback) {
+  // Simulating an API call
+  setTimeout(() => {
+    const data = { id: 1, name: "John" };
+    callback(data);
+  }, 1000);
+}
+
+fetchData((data) => {
+  console.log("Received data:", data);
+});
+```
+
+### Synchronous vs Asynchronous Callbacks
+
+```javascript
+// Synchronous callback
+function processArray(arr, callback) {
+  return arr.map(callback);
+}
+
+const numbers = [1, 2, 3, 4];
+const doubled = processArray(numbers, (num) => num * 2);
+console.log(doubled); // [2, 4, 6, 8]
+
+// Asynchronous callback
+function fetchUserData(userId, callback) {
+  setTimeout(() => {
+    const user = { id: userId, name: "John" };
+    callback(user);
+  }, 1000);
+}
+
+fetchUserData(1, (user) => {
+  console.log("User:", user);
+});
+```
+
+## Callback Patterns
+
+### 1. Error-First Callback Pattern
+
+```javascript
+function readFile(filename, callback) {
+  // Simulating file reading
+  setTimeout(() => {
+    try {
+      const data = "File contents";
+      callback(null, data);
+    } catch (error) {
+      callback(error, null);
+    }
+  }, 1000);
+}
+
+readFile("example.txt", (error, data) => {
+  if (error) {
+    console.error("Error:", error);
+    return;
+  }
+  console.log("Data:", data);
+});
+```
+
+### 2. Callback with Multiple Arguments
+
+```javascript
+function getUserProfile(userId, callback) {
+  setTimeout(() => {
+    const user = {
+      id: userId,
+      name: "John",
+      email: "john@example.com",
+    };
+    callback(null, user, "Profile loaded successfully");
+  }, 1000);
+}
+
+getUserProfile(1, (error, user, message) => {
+  if (error) {
+    console.error("Error:", error);
+    return;
+  }
+  console.log("User:", user);
+  console.log("Message:", message);
+});
+```
+
+## Error Handling
+
+### Basic Error Handling
+
+```javascript
+function riskyOperation(callback) {
+  try {
+    // Simulating a risky operation
+    const result = Math.random() > 0.5 ? "Success" : null;
+    if (!result) {
+      throw new Error("Operation failed");
+    }
+    callback(null, result);
+  } catch (error) {
+    callback(error, null);
+  }
+}
+
+riskyOperation((error, result) => {
+  if (error) {
+    console.error("Error occurred:", error.message);
+    return;
+  }
+  console.log("Operation successful:", result);
+});
+```
+
+### Error Handling with Async Operations
+
+```javascript
+function fetchWithRetry(url, maxRetries, callback) {
+  let retries = 0;
+
+  function attempt() {
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => callback(null, data))
+      .catch((error) => {
+        if (retries < maxRetries) {
+          retries++;
+          console.log(`Retry attempt ${retries}`);
+          setTimeout(attempt, 1000);
+        } else {
+          callback(error, null);
+        }
+      });
+  }
+
+  attempt();
+}
+```
+
+## Callback Hell
+
+### Example of Callback Hell
+
+```javascript
+function getUserData(userId, callback) {
+  fetchUser(userId, (error, user) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    fetchUserPosts(user.id, (error, posts) => {
+      if (error) {
+        callback(error, null);
+        return;
+      }
+
+      fetchUserComments(user.id, (error, comments) => {
+        if (error) {
+          callback(error, null);
+          return;
+        }
+
+        callback(null, {
+          user,
+          posts,
+          comments,
+        });
+      });
+    });
+  });
+}
+```
+
+### Solutions to Callback Hell
+
+1. **Named Functions**
+
+```javascript
+function handleUserData(error, userData) {
+  if (error) {
+    console.error("Error:", error);
+    return;
+  }
+  console.log("User data:", userData);
+}
+
+function handlePosts(error, posts) {
+  if (error) {
+    handleUserData(error, null);
+    return;
+  }
+  fetchUserComments(user.id, handleComments);
+}
+
+function handleComments(error, comments) {
+  if (error) {
+    handleUserData(error, null);
+    return;
+  }
+  handleUserData(null, {
+    user,
+    posts,
+    comments,
+  });
+}
+
+function getUserData(userId, callback) {
+  fetchUser(userId, (error, user) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+    fetchUserPosts(user.id, handlePosts);
+  });
+}
+```
+
+2. **Async.js Library**
+
+```javascript
+const async = require("async");
+
+function getUserData(userId, callback) {
+  async.parallel(
+    {
+      user: (cb) => fetchUser(userId, cb),
+      posts: (cb) => fetchUserPosts(userId, cb),
+      comments: (cb) => fetchUserComments(userId, cb),
+    },
+    callback,
+  );
+}
+```
+
+## Common Use Cases
+
+### 1. File Operations
+
+```javascript
+const fs = require("fs");
+
+function readAndProcessFile(filename, callback) {
+  fs.readFile(filename, "utf8", (error, data) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    try {
+      const processed = data.toUpperCase();
+      callback(null, processed);
+    } catch (error) {
+      callback(error, null);
+    }
+  });
+}
+```
+
+### 2. API Calls
+
+```javascript
+function fetchUserData(userId, callback) {
+  fetch(`https://api.example.com/users/${userId}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => callback(null, data))
+    .catch((error) => callback(error, null));
+}
+```
+
+## Exercises
+
+### Beginner Level
+
+1. **[Form Validation with Debounce]**
+
+   📝 **Exercise**:
+
+   Create a search input field that validates user input as they type, but only after they stop typing for 300ms. The validation should check if the input is at least 3 characters long and contains only alphanumeric characters.
+
+   **🧠 What is it (Feynman)?**
+
+   Think of this as creating a smart search box that waits for the user to finish typing before checking their input, like how Google's search suggestions work.
+
+   **⭐️ Key Points**
+
+   • Use setTimeout for debouncing
+   • Handle input events
+   • Validate input format
+   • Show validation feedback
+   • Clear previous timeouts
+
+   **💡 Hint**
+
+   Consider how to handle multiple rapid keystrokes and ensure only the last validation runs.
+
+   ```ts
+   const input = document.querySelector("input");
+   function validateInputDebounced(
+     value: string,
+     callback: (isValid: boolean) => void,
+   ) {
+     const inputRegex = /^[a-zA-Z0-9]$/;
+
+     clearTimeout(timeoutId); //cancel the previous timer
+
+     timerID = window.setTimeout(() => {
+       const IsValid = inputRegex.test(value);
+       callback(isValid) //call the callback with result
+     }, 300);
+   }
+
+
+   // Usage
+   input? addEventListener("input", (e) => {
+    const value = (e.target as HTMLInputElement).value;
+    validateInputDebounced(value, (isValid) => {
+        console.log(isValid? "Valid" : "Invalid")
+    })
+   })
+   ```
+
+2. **[Image Loading with Fallback]**
+
+   📝 **Exercise**:
+
+   Implement an image loader that attempts to load an image from a primary URL, and if it fails, falls back to a placeholder image. The loader should show a loading state while the image is being fetched.
+
+   **🧠 What is it (Feynman)?**
+
+   This is like having a backup plan when the main image fails to load, similar to how social media platforms show a default avatar when a user's profile picture fails to load.
+
+   **⭐️ Key Points**
+
+   • Handle image load events
+   • Implement error handling
+   • Show loading state
+   • Manage fallback image
+   • Clean up event listeners
+
+   **💡 Hint**
+
+   Consider using the onload and onerror events of the Image object.
+
+   ```ts
+   function loadImageWithFallback(
+     primaryUrl: string,
+     fallbackUrl: string,
+     onLoad: (img: HTMLImageElement) => void,
+     onError: (error: Error) => void,
+   ): void {
+     const img = new Image();
+     let isLoading = true;
+
+     // Show loading state
+     img.style.opacity = "0.5";
+
+     // Handle successful load
+     img.onload = () => {
+       isLoading = false;
+       img.style.opacity = "1";
+       onLoad(img);
+     };
+
+     // Handle load error
+     img.onerror = () => {
+       if (isLoading) {
+         // Try fallback image
+         img.src = fallbackUrl;
+       } else {
+         onError(new Error("Failed to load image"));
+       }
+     };
+
+     // Start loading primary image
+     img.src = primaryUrl;
+   }
+
+   // Usage example:
+   loadImageWithFallback(
+     "https://example.com/image.jpg",
+     "https://example.com/placeholder.jpg",
+     (img) => {
+       document.body.appendChild(img);
+     },
+     (error) => {
+       console.error("Image loading failed:", error);
+     },
+   );
+   ```
+
+### Intermediate Level
+
+3. **[Multi-step Form with Progress]**
+
+   📝 **Exercise**:
+
+   Create a multi-step form where each step's data is validated and saved before proceeding to the next step. The form should show progress, allow going back to previous steps, and maintain the entered data.
+
+   **🧠 What is it (Feynman)?**
+
+   This is like creating a wizard that guides users through a complex process, similar to how e-commerce sites handle the checkout process.
+
+   **⭐️ Key Points**
+
+   • Validate each step
+   • Save form data
+   • Handle navigation
+   • Show progress
+   • Maintain state
+
+   **💡 Hint**
+
+   Consider how to structure the data flow between steps and handle validation errors.
+
+4. **[Real-time Data Updates]**
+
+   📝 **Exercise**:
+
+   Implement a live-updating dashboard that fetches data from multiple endpoints every 30 seconds. The dashboard should handle failed requests gracefully and show the last successful data while retrying failed requests.
+
+   **🧠 What is it (Feynman)?**
+
+   This is like having a control panel that automatically updates with new information, similar to how stock market dashboards show real-time price updates.
+
+   **⭐️ Key Points**
+
+   • Fetch multiple data sources
+   • Handle concurrent requests
+   • Implement retry logic
+   • Show loading states
+   • Update UI smoothly
+
+   **💡 Hint**
+
+   Consider how to manage multiple concurrent requests and handle partial failures.
+
+5. **[File Upload with Progress]**
+
+   📝 **Exercise**:
+
+   Create a file upload component that shows upload progress, allows multiple file selection, and handles various file types. The component should validate file size and type before upload, and show appropriate error messages.
+
+   **🧠 What is it (Feynman)?**
+
+   This is like having a smart file transfer system that keeps users informed about the upload progress, similar to how cloud storage services handle file uploads.
+
+   **⭐️ Key Points**
+
+   • Handle file selection
+   • Validate file properties
+   • Show upload progress
+   • Handle multiple files
+   • Manage upload state
+
+   **💡 Hint**
+
+   Consider using the FileReader API and XMLHttpRequest or Fetch API with progress events.
+
+   ***
+
+   ### Extra Exercises
+
+   **Run a callback after logging**
+
+   ```ts
+   function sayHi(name: string, callback: (name: string) => void) {
+     callback(name);
+   }
+
+   sayHi("Brian", (Brian) => {
+     console.log("Hello, Brian");
+   });
+   ```
+
+   **Uppercase with a callback**
+
+   ```ts
+   function formatText(text: string, callback: (text: string) => string) {
+     return callback(text.toUpperCase());
+   }
+
+   //Usage
+   const result = formatText("Hello", (text) => {
+     return text.toUpperCase();
+   });
+
+   console.log(result);
+   ```
+
+   **Repeat N Time**
+
+   ```typescript
+   function repeat(times: number, callback: (times: number) => void) {
+     for (let i = 0; i < times; i++) {
+       callback(times);
+     }
+   }
+
+   // Usage
+   repeat(3, (times) => {
+     console.log(`Hello ${times}`);
+     // Hello 0
+     // Hello 1
+     // Hello 2
+   });
+   ```
+
+   **Simple Event System**
+
+   ```ts
+   function onClick(callback: () => void) {
+     const button = document.querySelector("button");
+
+     if (!button) {
+       console.log("No button found");
+       return;
+     }
+
+     button.addEventListener("click", callback);
+   }
+
+   // Usage
+   onClick(() => {
+     console.log("Button clicked");
+   });
+   ```
+
+## Resources
+
+- [MDN Web Docs - Callbacks](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function)
+- [JavaScript.info - Callbacks](https://javascript.info/callbacks)
+- [Node.js Callback Convention](https://nodejs.org/en/knowledge/errors/what-are-the-error-conventions/)
+- [Understanding Callbacks in JavaScript](https://www.freecodecamp.org/news/javascript-callback-functions-what-are-callbacks-in-js-and-how-to-use-them/)
+
+```
+
+```

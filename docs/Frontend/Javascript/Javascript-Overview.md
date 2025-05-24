@@ -20,7 +20,7 @@ sidebar_position: 1
 | Type Casting (Explicit/Implicit)                          | ★★★★☆      |
 | Type Conversion vs Coercion                               | ★★★★☆      |
 | Control Flow (if, else, switch)                           | ★★★★★      |
-| Loops (for, while, for…of/in)                             | ★★★★★      |
+| △Loops (for, while, for…of/in)                            | ★★★★★      |
 | Break, Continue, Labeled Statements                       | ★★★☆☆      |
 | Expressions & Operators (Arithmetic, Logical, Comparison) | ★★★★★      |
 
@@ -37,7 +37,7 @@ sidebar_position: 1
 
 | Topic                                           | Importance |
 | ----------------------------------------------- | ---------- |
-| Functions (Declaration, Parameters, Arrow)      | ★★★★★      |
+| △Functions (Declaration, Parameters, Arrow)     | ★★★★★      |
 | Default / Rest Parameters                       | ★★★★☆      |
 | IIFE (Immediately Invoked Function Expressions) | ★★★☆☆      |
 | Scope, Function Stack, Lexical Scoping          | ★★★★★      |
@@ -45,10 +45,10 @@ sidebar_position: 1
 | Recursion                                       | ★★★★☆      |
 | arguments object                                | ★★★☆☆      |
 | Strict Mode                                     | ★★★☆☆      |
-| this keyword (alone, arrow, event handlers)     | ★★★★★      |
+| △ this keyword (alone, arrow, event handlers)   | ★★★★★      |
 | Function Borrowing, call, apply, bind           | ★★★★☆      |
-| Error Handling (try/catch/finally)              | ★★★★★      |
-| Custom Errors & Error Object                    | ★★★☆☆      |
+| △Error Handling (try/catch/finally)             | ★★★★★      |
+| △ Custom Errors & Error Object                  | ★★★☆☆      |
 
 ### 📘 Practice
 
@@ -64,14 +64,14 @@ sidebar_position: 1
 
 | Topic                                        | Importance | status |
 | -------------------------------------------- | ---------- | ------ |
-| Objects & Prototypes                         | ★★★★★      | V      |
+| △ Objects & Prototypes                       | ★★★★★      | V      |
 | Prototypal Inheritance                       | ★★★★★      |        |
-| Built-in Objects (Date, Math, etc.)          | ★★★★☆      |        |
-| Arrays & Array Methods                       | ★★★★★      |        |
-| JSON Handling                                | ★★★★☆      |        |
+| △ Built-in Objects (Date, Math, etc.)        | ★★★★☆      |        |
+| △ Arrays & Array Methods                     | ★★★★★      | V      |
+| △ JSON Handling                              | ★★★★☆      |        |
 | Map, Set, WeakMap, WeakSet                   | ★★★★☆      |        |
 | Structured Data (deep copying, immutability) | ★★★★☆      |        |
-| Regular Expressions (RegEx)                  | ★★★☆☆      |        |
+| △ Regular Expressions (RegEx)                | ★★★☆☆      | V      |
 
 ### 📘 Practice
 
@@ -85,17 +85,17 @@ sidebar_position: 1
 
 **Focus:** Async programming, memory management, modern tooling
 
-| Topic                                    | Importance |
-| ---------------------------------------- | ---------- |
-| Asynchronous JS: setTimeout, setInterval | ★★★★☆      |
-| Callbacks                                | ★★★★☆      |
-| Promises                                 | ★★★★★      |
-| async / await                            | ★★★★★      |
-| Callback Hell                            | ★★★☆☆      |
-| Iterators & Generators                   | ★★★☆☆      |
-| Classes (syntactic sugar)                | ★★★★☆      |
-| Modules: CommonJS & ES Modules           | ★★★★★      |
-| Memory Management & Garbage Collection   | ★★★☆☆      |
+| Topic                                      | Importance |
+| ------------------------------------------ | ---------- |
+| △ Asynchronous JS: setTimeout, setInterval | ★★★★☆      |
+| △ Callbacks                                | ★★★★☆      |
+| △ Promises                                 | ★★★★★      |
+| △ async / await                            | ★★★★★      |
+| Callback Hell                              | ★★★☆☆      |
+| Iterators & Generators                     | ★★★☆☆      |
+| △ Classes (syntactic sugar)                | ★★★★☆      |
+| △ Modules: CommonJS & ES Modules           | ★★★★★      |
+| Memory Management & Garbage Collection     | ★★★☆☆      |
 
 ### 📘 Practice
 
@@ -109,12 +109,12 @@ sidebar_position: 1
 
 **Focus:** Real-world performance and debugging tools
 
-| Topic                             | Importance |
-| --------------------------------- | ---------- |
-| Chrome DevTools                   | ★★★★★      |
-| Debugging Syntax & Logic Errors   | ★★★★★      |
-| Debugging Memory Leaks            | ★★★☆☆      |
-| Debugging Performance Bottlenecks | ★★★★☆      |
+| Topic                             | Importance | Status |
+| --------------------------------- | ---------- | ------ |
+| Chrome DevTools                   | ★★★★★      | △      |
+| Debugging Syntax & Logic Errors   | ★★★★★      |        |
+| Debugging Memory Leaks            | ★★★☆☆      |        |
+| Debugging Performance Bottlenecks | ★★★★☆      |        |
 
 ### 📘 Practice
 
@@ -125,15 +125,16 @@ sidebar_position: 1
 
 ## Bonus: Ecosystem Expansion (Parallel Study Options)
 
-| Topic                            | Relevance |
-| -------------------------------- | --------- |
-| DOM Manipulation (Vanilla JS)    | ★★★★★     |
-| Fetch API / AJAX                 | ★★★★★     |
-| Frontend Frameworks (React)      | ★★★★★     |
-| Backend (Node.js, Express)       | ★★★★☆     |
-| TypeScript                       | ★★★★☆     |
-| Tooling (Babel, Webpack, ESLint) | ★★★☆☆     |
-| Testing (Jest)                   | ★★★★☆     |
+| Topic                            | Relevance | Status |
+| -------------------------------- | --------- | ------ |
+| DOM Manipulation (Vanilla JS)    | ★★★★★     | △      |
+| Fetch API / AJAX                 | ★★★★★     | △      |
+| Frontend Frameworks (React)      | ★★★★★     |        |
+| Backend (Node.js, Express)       | ★★★★☆     |        |
+| TypeScript                       | ★★★★☆     |        |
+| Tooling (Babel, Webpack, ESLint) | ★★★☆☆     | △      |
+| Testing (Jest)                   | ★★★★☆     |        |
+| Git & Github                     |           | △      |
 
 ---
 
