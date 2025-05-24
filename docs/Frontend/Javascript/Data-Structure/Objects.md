@@ -130,16 +130,50 @@ const keys = Object.keys(person); // ['name', 'age']
 
 Returns an array of a given object's own enumerable property values.
 
+**Usage**
+
 ```javascript
 const values = Object.values(person); // ['John', 30]
+```
+
+**Defintion**
+
+```javascript
+// Get all values from an object and return them as an array
+function getValues(obj) {
+  const values = [];
+  for (let key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      // Check if the property belongs directly to the object (not inherited from prototype)
+      values.push(obj[key]);
+    }
+  }
+  return values;
+}
 ```
 
 ### Object.entries()
 
 Returns an array of a given object's own enumerable string-keyed property [key, value] pairs.
 
+**Usage**
+
 ```javascript
 const entries = Object.entries(person); // [['name', 'John'], ['age', 30]]
+```
+
+**Definition**
+
+```js
+function getEntries(obj) {
+  const entries = [];
+  for (let key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      entries.push([key, obj[key]]);
+    }
+  }
+  return entries;
+}
 ```
 
 ### Object.assign()
@@ -320,7 +354,24 @@ const counter = (function () {
 
 ### Beginner Level
 
-1. Create an object representing a book with properties for title, author, and year published.
+---
+
+1. **[Book Object]**
+
+   📝 **Exercise**: Create an object representing a book with properties for title, author, and year published.
+
+   **🧠 What is it (Feynman)?**
+
+   Creating an object is like creating a box with labeled compartments (properties) for data. Each property stores something specific — like a title or author.
+
+   **⭐️ Key Points**
+
+   • Use object literal syntax `{}`
+   • Properties are key-value pairs
+   • Easy to structure related data
+
+   **💻 Example:**
+
    ```js
    const book = {
      title: "An excellent book",
@@ -328,19 +379,46 @@ const counter = (function () {
      publishedYear: 2008,
    };
    ```
-2. Write a function that takes an object and returns an array of its values.
+
+---
+
+2. **[Get Object Values]**
+
+   📝 **Exercise**: Write a function that takes an object and returns an array of its values.
+
+   **🧠 What is it (Feynman)?**
+
+   You want to collect all the values from a box (object) and look at them. JavaScript gives you `Object.values()` — it peeks inside and gives you a list of all the values.
+
+   **⭐️ Key Points**
+
+   • Use built-in `Object.values()`
+   • Works only on enumerable properties
+
+   **💻 Example:**
 
    ```js
    function getObjectValue(obj) {
-       return(object.value();)
+     return Object.values(obj);
    }
    ```
 
-3. Create an object with a method that uses the `this` keyword.
+---
 
-   > The `this` keyword in JavaScript refers to the object that is currently executing the code.
-   > In object methods, **`this`** refers to **the object that owns the method.**
-   > This is particularly useful for accessing other properties and methods **within the same object.**
+3. **[Object with `this` keyword]**
+
+   📝 **Exercise**: Create an object with a method that uses the `this` keyword.
+
+   **🧠 What is it (Feynman)?**
+
+   `this` is a reference to the object currently running the code. Inside a method, `this` lets you talk about other parts of the same object.
+
+   **⭐️ Key Points**
+
+   • `this` in regular functions refers to the surrounding object
+   • In arrow functions, `this` does **not** work the same
+
+   **💻 Example:**
 
    ```js
    const person = {
@@ -363,10 +441,22 @@ const counter = (function () {
    };
    ```
 
-4. Implement a simple object with getter and setter methods.
+---
 
-   > `Getters` and `setters` are special methods that allow you to define how a property is **accessed (get) or modified (set).**
-   > They provide a way to control **access to object properties** and can **add validation or computed values.**
+4. **[Object with Getter/Setter]**
+
+   📝 **Exercise**: Implement a simple object with getter and setter methods.
+
+   **🧠 What is it (Feynman)?**
+
+   Getters and setters are like doors to a house. You can control who enters or leaves (access/modify) a value. You can add validation or convert units on the fly.
+
+   **⭐️ Key Points**
+
+   • Use `get` to read a computed or private value
+   • Use `set` to apply validation before updating
+
+   **💻 Example:**
 
    ```js
    const temperature = {
@@ -376,7 +466,7 @@ const counter = (function () {
 
      // Getter for celsius
      get celsius() {
-       return this.celsius;
+       return this._celsius;
      },
 
      // Setter for celsius with validation
@@ -396,15 +486,27 @@ const counter = (function () {
      },
    };
 
-   temparture.celsius = 30; //set the celsius
-   console.log(temparture.celsius); //get the celsius
-   console.log(temparture.fahrenheit); //get the fahrenheit
+   temperature.celsius = 30; // set the celsius
+   console.log(temperature.celsius); // get the celsius
+   console.log(temperature.fahrenheit); // get the fahrenheit
    ```
 
-5. Create an object that uses computed property names.
+---
 
-   > Computed property names allow you to **use expressions as property names** in object literals.
-   > They are useful when you need to create property names dynamically or use variables as keys.
+5. **[Computed Property Names]**
+
+   📝 **Exercise**: Create an object that uses computed property names.
+
+   **🧠 What is it (Feynman)?**
+
+   Sometimes, you don’t know the property name in advance. You want to calculate it based on a variable or expression — that's where computed property names come in.
+
+   **⭐️ Key Points**
+
+   • Wrap the key in `[]` inside an object literal
+   • You can use variables or expressions to build keys
+
+   **💻 Example:**
 
    ```js
    // Example 1: Using variables as property names (color)
@@ -415,8 +517,8 @@ const counter = (function () {
      [propName]: value,
      [`${propName}Code`]: "FF0000",
    };
-   console.log(palette.color);
-   console.log(palette.colorCode);
+   console.log(palette.color); // red
+   console.log(palette.colorCode); // FF0000
 
    // Example 2: Using expressions
    const prefix = "user";
@@ -430,10 +532,10 @@ const counter = (function () {
        return salary * duration;
      },
    };
-   console.log(user.userName);
-   console.log(user.userAge);
-   console.log(user.userROLE);
-   console.log(user.userSalary());
+   console.log(user.userName); // John
+   console.log(user.userAge); // 30
+   console.log(user.userROLE); // Admin
+   console.log(user.userSalary()); // 7500
 
    // Example 3: Using method names
    const methodName = "calculate";
@@ -445,13 +547,226 @@ const counter = (function () {
    console.log(calculator.calculate(5, 3)); // 8
    ```
 
+   > **What are computed property names?**
+   > They let you use a variable or expression as a property name inside an object literal. Just wrap the expression in square brackets `[]`. This is valid JavaScript and works in all modern browsers.
+
+---
+
 ### Intermediate Level
 
-6. Implement a factory function that creates user objects with validation.
-7. Create an object that uses the module pattern to implement a private counter.
-8. Write a function that deep clones an object with nested properties.
-9. Implement an object that uses the observer pattern to notify subscribers of changes.
-10. Create an object that implements the singleton pattern.
+6. **[Factory Function with Validation]**
+
+   📝 **Exercise**: Implement a factory function that creates user objects with validation.
+
+   Implement a factory function that creates user objects with validation.
+
+   **🧠 What is it (Feynman)?**
+
+   A factory function is like a machine that builds a new object every time you use it. It returns the object it makes.
+   You can put rules (validation) inside to make sure the parts are correct before returning it.
+
+   **⭐️ Key points**
+
+   • No new keyword needed
+   • Easily add input validation
+   • Return object with methods
+
+   **💡 Hint**
+
+   Use closures and helper functions inside the factory to keep logic organized.
+
+   **💻 Examples:**
+
+   ```js
+   function createUser({ username, email }) {
+     // helper function to valid email
+     function isValidEmail(email) {
+       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+     }
+
+     // validate the user data
+     if (!username || !email || !isValidEmail(email)) {
+       throw new Error("Invalid user data");
+     }
+
+     return {
+       username,
+       email,
+       greet() {
+         console.log(`Hi, I'm ${this.username}`);
+       },
+     };
+   }
+   ```
+
+7. **[Module Pattern - Private Counter]**
+
+   📝 **Exercise**: Create an object that uses the module pattern to implement a private counter.
+
+   Create an object that uses the module pattern to implement a private counter.
+
+   **🧠 What is it (Feynman)?**
+
+   A module is like a toolbox with tools (functions) that you can use, but you can also **keep some tools hidden (private)**. You use **closures** to create this privacy.
+
+   **⭐️ Key points**
+
+   • Use **IIFE (Immediately Invoked Function Expression)**
+   • Private variables inside closure
+   • Public methods returned
+
+   **💡 Hint**
+
+   Define private variables inside the function, expose only what you want using return object.
+
+   **💻 Example**
+
+   ```js
+   const counter = function () {
+     let count = 0; //closure
+
+     return {
+       increment() {
+         count++;
+       },
+       getCount() {
+         return count;
+       },
+     };
+   };
+   ```
+
+8. **[Deep Clone]**
+
+   📝 **Exercise**: Write a function that deep clones an object with nested properties.
+
+   Write a function that deep clones an object with nested properties.
+
+   **🧠 What is it (Feynman)?**
+
+   Cloning an object is like **copying all its properties.** Deep clone means you also copy nested objects, not just the outer layer.
+   So changing one **won't affect the other.**
+
+   **⭐️ Key points**
+
+   • Use **recursion** to copy nested objects
+   • Handle arrays and objects
+   • **Avoid JSON.parse(JSON.stringify(...))** for complex structures (functions, Dates, etc.)
+
+   **💡 Hint**
+
+   Use a helper function to recursively clone each property.
+
+   **💻 Example**
+
+   ```js
+   function deepClone(obj) {
+     // validate object type and value
+     if (typeof obj !== "object" || obj === null) return obj;
+
+     // use a new array to receive data
+     const result = Array.isArray(obj) ? [] : {};
+
+     for (let key in obj) {
+       result[key] = deepClone(obj[key]);
+     }
+
+     return result;
+   }
+   ```
+
+9. **[Observer Pattern]**
+
+   📝 **Exercise**: Implement an object that uses the observer pattern to notify subscribers of changes.
+
+   Implement an object that uses the observer pattern to notify subscribers of changes.
+
+   **🧠 What is it (Feynman)?**
+
+   Think of it like a newsletter. People (subscribers) sign up. When something changes (event), you notify all of them. It's a way for objects to "talk" without being tightly connected.
+
+   **⭐️ Key points**
+
+   • Store a list of functions (subscribers)
+   • Use .subscribe(), .unsubscribe(), .notify()
+
+   **💡 Hint**
+
+   Create an object that manages a list of callbacks and provides methods to manage them.
+
+   **💻 Example**
+
+   ```js
+   function createObservable() {
+     const observers = [];
+
+     return {
+       subscribe(fn) {
+         observers.push(fn);
+       },
+
+       unsubscribe(fn) {
+         const index = observers.indexOf(fn);
+         if (index > -1) observers.splice(index, 1);
+         //If you don't check this and index is -1
+         //you'll remove the last item in the array by mistake (because splice(-1, 1) removes the last element).
+       },
+
+       notify(data) {
+         observers.forEach((fn) => fn(data)); //go through every subscriber
+       },
+     };
+   }
+   // Usage
+   const news = createObservable();
+   news.subscribe((msg) => console.log(`Subscriber 1: ${msg}`));
+   news.notify("New article published!");
+   ```
+
+10. **[Singleton Pattern]**
+
+    📝 **Exercise**: Create an object that implements the singleton pattern.
+
+    Create an object that implements the singleton pattern.
+
+    **🧠 What is it (Feynman)?**
+
+    A singleton is like a captain's logbook. No matter how many times you try to get a logbook, there's only ever one.
+    It gives the same copy every time.
+    • Avoid creating multiple database connections
+    • Share state globally without re-instantiating
+
+    **⭐️ Key points**
+
+    • Only one instance exists
+    • Use closure or class static properties
+
+    **💡 Hint**
+
+    Create a function or class that checks if an instance already exists before creating a new one.
+
+    **💻 Example (Function Closure)**
+
+    ```js
+    const Singleton = (function () {
+      // Instance holds the "one-and-only" object
+      let instance;
+
+      function createInstance() {
+        return { id: Math.random() };
+      }
+      return {
+        getInstance() {
+          if (!instance) instance = createInstance();
+          return instance;
+        },
+      };
+    })();
+
+    const a = Singleton.getInstance();
+    const b = Singleton.getInstance();
+    console.log(a === b); //both are the same object (unique)
+    ```
 
 ### Advanced Level
 

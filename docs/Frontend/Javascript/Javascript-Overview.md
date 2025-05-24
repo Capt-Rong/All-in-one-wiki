@@ -145,3 +145,16 @@ sidebar_position: 1
 | ★★★☆☆  | Good to know, used in many cases |
 | ★★☆☆☆  | Niche / background knowledge     |
 | ★☆☆☆☆  | Rarely used / optional for most  |
+
+---
+
+## List
+
+[] spread operator
+[] regular expression
+[] async function
+[] exceptional
+[] IIFE
+[] closure
+[] constructor
+[] prototype and chain
