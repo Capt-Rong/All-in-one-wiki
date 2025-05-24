@@ -62,15 +62,16 @@ sidebar_position: 1
 
 **Focus:** Master data structures & OOP concepts
 
-| Topic                                        | Importance |
-| -------------------------------------------- | ---------- |
-| Objects & Prototypes                         | ★★★★★      |
-| Prototypal Inheritance                       | ★★★★★      |
-| Built-in Objects (Date, Math, etc.)          | ★★★★☆      |
-| Arrays & Array Methods                       | ★★★★★      |
-| JSON Handling                                | ★★★★☆      |
-| Map, Set, WeakMap, WeakSet                   | ★★★★☆      |
-| Structured Data (deep copying, immutability) | ★★★★☆      |
+| Topic                                        | Importance | status |
+| -------------------------------------------- | ---------- | ------ |
+| Objects & Prototypes                         | ★★★★★      | V      |
+| Prototypal Inheritance                       | ★★★★★      |        |
+| Built-in Objects (Date, Math, etc.)          | ★★★★☆      |        |
+| Arrays & Array Methods                       | ★★★★★      |        |
+| JSON Handling                                | ★★★★☆      |        |
+| Map, Set, WeakMap, WeakSet                   | ★★★★☆      |        |
+| Structured Data (deep copying, immutability) | ★★★★☆      |        |
+| Regular Expressions (RegEx)                  | ★★★☆☆      |        |
 
 ### 📘 Practice
 
@@ -152,9 +153,11 @@ sidebar_position: 1
 
 [] spread operator
 [] regular expression
-[] async function
 [] exceptional
+[] prototype and chain
+Function:
+[] async function
 [] IIFE
 [] closure
 [] constructor
-[] prototype and chain
+[] callback: A callback is a function passed as an argument to another function, so that it can be called (executed) later.

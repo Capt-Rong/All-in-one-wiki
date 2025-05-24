@@ -67,6 +67,8 @@ let numbers = [1, 2, 3]; // Type is number[]
 
 Interfaces define the structure of objects and can be used for type checking.
 
+> NOTICE: interface is incorrectly declared with =.
+
 ```typescript
 interface User {
   name: string;
@@ -82,9 +84,22 @@ const user: User = {
 };
 ```
 
+#### Interface vs Type
+
+| Feature                             | interface                    | type                                      | Use When...                           |
+| ----------------------------------- | ---------------------------- | ----------------------------------------- | ------------------------------------- |
+| Can define object shapes            | ✅ Yes                       | ✅ Yes                                    | Both work                             |
+| Can extend / implement              | ✅ Yes (extends, implements) | ✅ Yes (extends, but not with implements) | You want inheritance or class support |
+| Can be merged (declaration merging) | ✅ Yes                       | ❌ No                                     | You need to augment types later       |
+| Can define primitives/unions        | ❌ No                        | ✅ Yes                                    | You need `type A = string`            |
+| Can define tuples                   | ❌ No                        | ✅ Yes                                    | You're working with arrays or tuples  |
+| Preferred in libraries              | ✅ Often (for public APIs)   | ✅ Often (for unions, utilities, etc.)    | It depends!                           |
+
 ### Type Aliases
 
 Type aliases create new names for types.
+
+> NOTICE: Naming convention: TypeScript interfaces should use "PascalCase".
 
 ```typescript
 type Point = {
@@ -236,6 +251,33 @@ function processValue(value: string | number) {
 }
 ```
 
+### Record
+
+Record defines object types with specific key/value types
+
+```typescript
+// Record <Key, Values>
+const scores: Record<string, number> = {
+  Alice: 95,
+  Bob: 87,
+};
+
+function getObjectValue(obj: Record<string, any>): any[] {
+  return Object.values(obj);
+}
+```
+
+```typescript
+type Status = "idle" | "loading" | "success" | "error";
+
+const statusMessages: Record<Status, string> = {
+  idle: "Waiting...",
+  loading: "Loading...",
+  success: "Done!",
+  error: "Something went wrong!",
+};
+```
+
 ## Exercises
 
 ### JavaScript to TypeScript Conversion
@@ -255,12 +297,12 @@ const user = {
 
 ```typescript
 type User = {
-  name: string;
-  age: number,
-  address {
+name: string;
+age: number,
+address {
     street: string,
     city: string,
-  }
+}
 };
 ```
 
@@ -299,17 +341,17 @@ class Person {
 
 ```typescript
 class Person {
-  name: string;
-  age: number;
+name: string;
+age: number;
 
-  constructor(name: string, age: number) {
+constructor(name: string, age: number) {
     this.name = name;
     this.age = age;
-  }
+}
 
-  greet(): string {
+greet(): string {
     return: `Hello, I'm ${this.name}`;
-  }
+}
 }
 
 // Usage
@@ -327,8 +369,8 @@ function findUser(users, id) {
 
 ```typescript
 const User = {
-  id: number;
-  name: string;
+id: number;
+name: string;
 };
 
 // avoid no user in users
@@ -359,7 +401,7 @@ function handleClick(event: React.MouseEvent<HTMLInputElement>) {
   console.log(event.target.value);
 }
 
-// HTML-Js
+// Plain HTML with vanllia js
 function handleClick(event: MouseEvent) {
   console.log(event.target.value);
 }
@@ -374,6 +416,23 @@ async function fetchUser(id) {
 }
 ```
 
+```typescript
+type User = {
+  id: number;
+  name: string;
+  email?: string;
+};
+
+//async function need to use :Promise<type>
+async function fetchUser(id: number): Promise<User> {
+  const responese = await fetch(`/api/users/${id}`);
+
+  // Declare a constant named user, and it must conform to the shape of User.
+  const user: User = response.json();
+  return user;
+}
+```
+
 7. Convert this JavaScript utility function to TypeScript:
 
 ```javascript
@@ -382,10 +441,33 @@ function formatDate(date) {
 }
 ```
 
+```typescript
+function formateDate(date: string): string {
+  return data.toLocaleDateString();
+}
+
+const today = new Date();
+console.log(formateDate(Date));
+```
+
 8. Convert this JavaScript configuration object to TypeScript:
 
 ```javascript
 const config = {
+  apiUrl: "https://api.example.com",
+  timeout: 5000,
+  retries: 3,
+};
+```
+
+```typescript
+type Config = {
+  apiUrl: string;
+  timeout: number;
+  retries: number;
+};
+
+const config: Config = {
   apiUrl: "https://api.example.com",
   timeout: 5000,
   retries: 3,
@@ -401,6 +483,23 @@ function processData(data, callback) {
 }
 ```
 
+```typescript
+function proecssData(
+  data: number[],
+  callback: (result: number[]) => void,
+): void {
+  const result = data.map((item) => item * 2);
+  callback(result);
+}
+
+// Usage
+function logResult(data: number[]) {
+    console.log("Processed result:" data);
+}
+
+processData([1, 2, 3], logResult);
+```
+
 10. Convert this JavaScript module to TypeScript:
 
 ```javascript
@@ -412,6 +511,18 @@ export function validatePassword(password) {
   return password.length >= 8;
 }
 ```
+
+```typescript
+export function validateEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export function validatePassword(password: string): boolean {
+  return password.length >= 8;
+}
+```
+
+---
 
 ### TypeScript Implementation Exercises
 

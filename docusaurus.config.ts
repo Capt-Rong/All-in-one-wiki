@@ -1,6 +1,7 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import rehypePrettyCode from "rehype-pretty-code";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -49,6 +50,30 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          path: "docs",
+          routeBasePath: "docs",
+          remarkPlugins: [],
+          rehypePlugins: [
+            [
+              rehypePrettyCode,
+              {
+                theme: "one-dark-pro",
+                keepBackground: false,
+                onVisitLine(node) {
+                  // Add a blank line if no content, so it still gets numbered
+                  if (node.children.length === 0) {
+                    node.children = [{ type: "text", value: " " }];
+                  }
+                },
+                onVisitHighlightedLine(node) {
+                  node.properties.className?.push("highlighted");
+                },
+                onVisitHighlightedWord(node) {
+                  node.properties.className = ["word"];
+                },
+              },
+            ],
+          ],
         },
         blog: {
           showReadingTime: true,

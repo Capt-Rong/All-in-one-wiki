@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# JavaScript Objects
+# JavaScript Objects - Guide
 
 ## Table of Contents
 
@@ -372,8 +372,14 @@ const counter = (function () {
 
    **💻 Example:**
 
-   ```js
-   const book = {
+   ```typescript
+   interface Book {
+     title: string;
+     author: string;
+     publishedYear: number;
+   }
+
+   const book: BOOK = {
      title: "An excellent book",
      author: "Adam",
      publishedYear: 2008,
@@ -397,8 +403,8 @@ const counter = (function () {
 
    **💻 Example:**
 
-   ```js
-   function getObjectValue(obj) {
+   ```typescript
+   function getObjectValue(obj: Record<string, any>): any[] {
      return Object.values(obj);
    }
    ```
@@ -420,14 +426,29 @@ const counter = (function () {
 
    **💻 Example:**
 
-   ```js
-   const person = {
+   ```ts
+   interface Person {
+     name: string;
+     age: number;
+     greeting: () => string;
+   }
+
+   const person: Person = {
      name: "Jason",
      age: 18,
      greeting() {
        return `I'm ${this.name}, and I'm ${this.age} years old`;
      },
    };
+   ```
+
+   ```ts
+   interface Calculator {
+     num1: number;
+     num2: number;
+     getSum: () => number;
+     getDiff: () => number;
+   }
 
    const calculator = {
      num1: 10,
@@ -789,3 +810,7 @@ const counter = (function () {
 - [MDN Web Docs - Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
 - [JavaScript.info - Objects](https://javascript.info/object)
 - [Eloquent JavaScript - Objects](https://eloquentjavascript.net/06_object.html)
+
+```
+
+```
