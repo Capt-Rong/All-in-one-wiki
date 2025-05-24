@@ -1,127 +1,78 @@
-# React Learning Path
+---
+sidebar_position: 1
+---
 
-## Phase 1: React Foundations
+# React-Overview
 
-**Goal:** Understand the motivation behind React, JSX, component-based architecture.
+## 1. React Basics
 
-### Topics
-
-- ✅ Why React? (Simple dev flow, Virtual DOM, JSX, Flexibility)
-- ✅ What is JSX? (Syntax, Usage, Conditional rendering, Attributes)
-- ✅ ReactDOM & Virtual DOM (How it works, why it matters)
-- ✅ Setting up with Vite (Recommended)
-  - Watch "Vite in 100s" → Follow "Vite + React Setup"
-
-### Practice
-
-- Create a basic Vite + React app
-- Render a static component with JSX
+- Project/environment setup
+- JSX
+- Components
+- useState
+- useEffect
+- useRef
+- Custom Hooks
+- Smart (container) vs UI (presentational) components
+- ...
 
 ---
 
-## Phase 2: Components & Styling
+## 2. Redux
 
-**Goal:** Learn component structure, state/props, and choose a styling system.
-
-### Topics
-
-- ✅ Functional vs Class components (Start with Functional)
-- ✅ Props & Events
-- ✅ Basic State with useState
-- ✅ Component lifecycle (Conceptual only for now)
-- ✅ Styling options:
-  - TailwindCSS (Recommended)
-  - Try others briefly (Bootstrap, MUI, AntD)
-
-### Practice
-
-- Build a "Profile Card" component styled with Tailwind
-- Make props-driven reusable components
+- RTK (Redux Toolkit)
+- Synchronous state
+- Asynchronous state
+- State and view separation
+- Example: Meituan shopping cart
+- ...
 
 ---
 
-## Phase 3: React Core Hooks
+## 3. Router (Routing)
 
-**Goal:** Master React hooks and side effects.
-
-### Topics
-
-- ✅ useState, useEffect (with examples)
-- ✅ useRef, useMemo, useCallback
-- ✅ Write custom hooks (start simple)
-- ✅ Intro to useContext
-
-### Practice
-
-- Todo app with useState
-- Fetch data and render with useEffect
-- Create a timer with useRef
+- Basic usage
+- Nested routes
+- Route modes
+- Declarative navigation
+- Programmatic navigation
+- Example: Account book
+- ...
 
 ---
 
-## Phase 4: Routing & State Management
+## 4. Real-World Projects
 
-**Goal:** Build multi-page apps and manage deeper state.
-
-### Topics
-
-- ✅ React Router (Course + Lazy loading routes)
-- ✅ Prop Drilling problem
-- ✅ Context API (Shared state)
-- ✅ Zustand (Try as Redux alternative)
-- ✅ Form handling (Formik + Yup)
-
-### Practice
-
-- Multi-page app (Home/About/Product)
-- Theme switcher with global state (Context or Zustand)
-- Simple form with Formik + Yup validation
+- React global state management
+- Login functionality
+- Token management
+- Echarts chart encapsulation
+- Image upload
+- Project bundling
+- Route lazy loading
+- CDN resource optimization
+- ...
 
 ---
 
-## Phase 5: Advanced Patterns & Performance
+## 5. Advanced/Extended Basics
 
-**Goal:** Structure scalable apps and optimize performance.
-
-### Topics
-
-- ✅ Pure Functions
-- ✅ HOC, Render Props, Container Pattern
-- ✅ Debounce / Throttle
-- ✅ Code Splitting
-- ✅ React Profiler
-- ✅ Virtualisation (long list rendering)
-
-### Practice
-
-- Build HOC to handle loading states
-- Optimize large list with virtualization
-- Code split route-based chunks
+- useMemo / useCallback
+- useReducer
+- useImperativeHandle
+- Class API vs Hooks
+- Next-gen state management (e.g., Zustand)
+- ...
 
 ---
 
-## Phase 6: Ecosystem, Testing, and Frameworks
+## 6. React + TypeScript
 
-**Goal:** Prepare for real-world app development.
-
-### Topics
-
-- ✅ Testing (Jest, Cypress)
-- ✅ Production build vs Dev
-- ✅ Tools: React Helmet, Storybook
-- ✅ Frameworks Overview:
-  - Next.js (recommended next phase)
-  - Remix, Astro, Gatsby (just explore for now)
-
-### Practice
-
-- Write tests for a component (Jest)
-- Setup routing + lazy loading + metadata (Helmet)
-- Prepare Vite app for production
-
----
-
-## Bonus Suggestions
-
-- Keep a personal React cheatsheet or Notion doc
-- After finishing this path → Deep dive into Next.js fullstack
+- React + TS basics
+- Axios + TS
+- Zustand + TS
+- Building ultra-fast mobile apps with React + TS
+- Channel business logic
+- List business logic
+- Detail business logic
+- ...

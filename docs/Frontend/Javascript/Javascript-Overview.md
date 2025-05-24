@@ -131,10 +131,10 @@ sidebar_position: 1
 | Fetch API / AJAX                 | ★★★★★     | △      |
 | Frontend Frameworks (React)      | ★★★★★     |        |
 | Backend (Node.js, Express)       | ★★★★☆     |        |
-| TypeScript                       | ★★★★☆     |        |
-| Tooling (Babel, Webpack, ESLint) | ★★★☆☆     | △      |
+| △ TypeScript                     | ★★★★☆     | V      |
+| Tooling (Babel, Webpack, ESLint) | ★★★☆☆     |        |
 | Testing (Jest)                   | ★★★★☆     |        |
-| Git & Github                     |           | △      |
+| △ Git & Github                   |           | V      |
 
 ---
 

@@ -1,0 +1,76 @@
+---
+sidebar_position: 3
+---
+
+# Components
+
+## Components Concept
+
+A functional component is a JavaScript/TypeScript function that returns JSX (React elements). It's the most common and recommended way to create components in modern React. Functional components are simpler and more concise than class components.
+
+Key characteristics:
+
+- Must start with a capital letter
+- Must return JSX
+- Can accept props as parameters
+- Can use React Hooks for state and lifecycle management
+
+```tsx
+// 定义组件
+function Button(props: { name: string }): React.ReactNode {
+  return <button>{props.name}</button>;
+}
+
+// 使用组件（渲染组件）
+// 自闭合标签
+<Button />
+// 成对标签
+<Button></Button>
+```
+
+## Class Components
+
+Class components are the older way of creating components in React. They are defined as ES6 classes that extend the React.Component class.
+
+Key characteristics:
+
+- Must start with a capital letter
+- Must extend the React.Component class
+- Must implement a render method that returns JSX
+- Can use React lifecycle methods for state and lifecycle management
+
+```tsx
+class Button extends React.Component {
+  render() {
+    return <button>Click me</button>;
+  }
+}
+```
+
+## Style
+
+```tsx
+const styles = {
+  button: {
+    backgroundColor: "red", // Camel Case
+    fontSize: "16px",
+  },
+};
+
+// 内联样式
+<button style={{ color: "red" }}>Click me</button>
+
+// 外部样式
+<button className="button">Click me</button>
+
+// 模块化样式
+<button className={styles.button}>Click me</button> //color:red
+```
+
+## Extension: ClassNames
+
+[classNames](https://github.com/JedWatson/classnames)
+
+```tsx
+<button className={classNames("button", "button-primary")}>Click me</button>
+```

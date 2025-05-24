@@ -43,6 +43,12 @@ git config --global user.email "your.email@example.com"
 
 ### Basic Operations
 
+| Command      | 🧠 What it does                                              | 🕐 When to use it                                                       |
+| ------------ | ------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `git add`    | Stages changes (prepares files to be committed)              | After editing or creating files, before you commit                      |
+| `git commit` | Saves a snapshot of the staged changes locally               | When your work is complete enough to be recorded                        |
+| `git push`   | Uploads your commits to the remote repository (e.g., GitHub) | After you commit and want to share your changes with the team or backup |
+
 ```bash
 # Check repository status
 git status
@@ -114,6 +120,94 @@ git cherry-pick <commit-hash> # Apply specific commit to current branch
 git rebase -i HEAD~3         # Interactive rebase of last 3 commits
 ```
 
+### Undoing Changes and Restoring
+
+```bash
+# Undo last commit but keep changes staged
+git reset --soft HEAD~1
+
+# Undo last commit and unstage changes
+git reset HEAD~1
+
+# Undo last commit and discard changes
+git reset --hard HEAD~1
+
+# Undo multiple commits
+git reset --hard HEAD~3      # Undo last 3 commits
+
+# Restore specific file to last commit
+git restore <file>           # New way (Git 2.23+)
+git checkout -- <file>       # Old way
+
+# Restore specific file to specific commit
+git restore --source=<commit-hash> <file>
+
+# Discard all local changes
+git restore .                # New way (Git 2.23+)
+git checkout -- .            # Old way
+
+# Undo a merge commit
+git revert -m 1 <merge-commit-hash>
+
+# Undo a specific commit but keep history
+git revert <commit-hash>
+```
+
+### Deleting and Cleaning
+
+```bash
+# Delete untracked files
+git clean -f                 # Delete files
+git clean -fd               # Delete files and directories
+git clean -n                # Dry run (show what would be deleted)
+
+# Delete a branch
+git branch -d <branch>      # Safe delete (only if merged)
+git branch -D <branch>      # Force delete
+
+# Delete a remote branch
+git push origin --delete <branch>
+
+# Remove a file from Git but keep it locally
+git rm --cached <file>
+
+# Remove a file from Git and delete it locally
+git rm <file>
+```
+
+### Fixing Pushed Commits
+
+```bash
+# Undo last pushed commit but keep changes
+git reset HEAD~1
+git push -f origin <branch>  # Force push (use with caution!)
+
+# Undo last pushed commit and discard changes
+git reset --hard HEAD~1
+git push -f origin <branch>  # Force push (use with caution!)
+
+# Revert a pushed commit (safer than reset)
+git revert <commit-hash>
+git push origin <branch>     # No force push needed
+
+# Amend last commit message
+git commit --amend
+git push -f origin <branch>  # Force push needed
+
+# Add changes to last commit
+git add <file>
+git commit --amend --no-edit
+git push -f origin <branch>  # Force push needed
+```
+
+⚠️ **Important Notes:**
+
+1. `git reset --hard` and `git clean` are destructive commands - they permanently delete changes
+2. Force pushing (`git push -f`) can cause problems for other team members
+3. Always communicate with your team before force pushing
+4. Consider using `git revert` instead of `git reset` for pushed commits
+5. Make sure you have a backup or the changes are committed before using destructive commands
+
 ## Common Git Workflows
 
 ### Feature Branch Workflow
@@ -159,6 +253,15 @@ git rebase -i HEAD~3         # Interactive rebase of last 3 commits
    - `feature/*`: New features
    - `release/*`: Release preparation
    - `hotfix/*`: Production fixes
+
+   | Type     | Purpose                  | Example                        |
+   | -------- | ------------------------ | ------------------------------ |
+   | feature/ | New feature              | feature/signup-form            |
+   | bugfix/  | Bug fix                  | bugfix/navbar-overlap          |
+   | hotfix/  | Emergency production fix | hotfix/critical-security-patch |
+   | release/ | Pre-release branch       | release/v1.2.0                 |
+   | chore/   | Minor changes            | chore/upgrade-deps             |
+   | test/    | Experimentation          | test/new-auth-flow             |
 
 3. **Workflow Steps**
 
@@ -228,102 +331,190 @@ git rebase -i HEAD~3         # Interactive rebase of last 3 commits
 
 1. **Basic Repository Setup**
 
+   - Initialize a new Git repository
+   - Create a README.md file
+   - Make your first commit
+   - Verify the commit was successful
+
    ```bash
-   # Task: Initialize a new Git repository and make your first commit
+   # Initialize new repository
    git init
+
+   # Create README.md file and write "# My project"
    echo "# My Project" > README.md
+
+   # Add and commit the file
    git add README.md
-   git commit -m "Initial commit"
+   git commit -m "Initial commit: Add README"
+
+   # Verify the commit
+   git log --oneline
    ```
 
 2. **Branch Management**
 
+   - Create a new feature branch
+   - Make some changes to files
+   - Switch back to main branch
+   - Merge your feature branch into main
+   - Verify the changes are present in main
+
    ```bash
-   # Task: Create and switch between branches
-   git checkout -b feature/login
-   # Make changes
+   # Create and switch to new feature branch
+   git checkout -b feature/new-feature
+
+   # Make changes to files
+   echo "New feature content" > feature.txt
+   git add feature.txt
+   git commit -m "Add new feature"
+
+   # Switch back to main branch
    git checkout main
-   git merge feature/login
+
+   # Merge feature branch into main
+   git merge feature/new-feature
+
+   # Verify changes
+   # HEAD: the latest commit
+   # HEAD~1 means "one commit before HEAD."
+   git diff HEAD~1
    ```
 
 3. **Remote Operations**
+
+   - Clone an existing repository
+   - Make some changes to the code
+   - Push your changes to the remote repository
+   - Verify your changes are visible on the remote
+
    ```bash
-   # Task: Clone a repository and push changes
-   git clone https://github.com/user/repo.git
-   # Make changes
-   git push origin main
+   # Clone the repository
+   git clone https://github.com/username/repository.git
+   cd repository
+   git checkout -b feature/new-feature
+
+   # Make changes to files
+   echo "New feature implementation" > feature.txt
+   git add feature.txt
+   git commit -m "Add new feature implementation"
+
+   # Push changes to remote repository
+   git push origin feature/new-feature
+
+   # Verify changes on remote
+   git fetch origin
+   git diff origin/main feature/new-feature
    ```
 
 ### Intermediate Level
 
 4. **Conflict Resolution**
 
+   - Create a feature branch
+   - Make changes to a file that also exists in main
+   - Switch to main and make different changes to the same file
+   - Attempt to merge your feature branch
+   - Resolve the merge conflict
+   - Complete the merge successfully
+
    ```bash
-   # Task: Resolve merge conflicts
-   git checkout feature/new-feature
-   # Make changes to same file as main
+   # Create and switch to feature branch
+   git checkout -b feature/new-feature
+
+   # Make changes to a file in feature branch
+   echo "Feature branch changes" > example.txt
+   git add example.txt
+   git commit -m "Update file in feature branch"
+
+   # Switch to main and make conflicting changes
    git checkout main
+   echo "Main branch changes" > example.txt
+   git add example.txt
+   git commit -m "Update file in main branch"
+
+   # Attempt to merge feature branch
    git merge feature/new-feature
-   # Resolve conflicts
-   git add .
+
+   # Resolve conflicts in example.txt
+   # After resolving conflicts:
+   git add example.txt
    git commit -m "Resolve merge conflicts"
+
+   # Verify merge was successful
+   # View commit history with branch visualization and compact format
+   git log --graph --oneline
    ```
 
 5. **Stash Usage**
 
+   - Make some changes to your working directory
+   - Save your changes using stash
+   - Switch to a different branch
+   - Make some changes there
+   - Return to your original branch
+   - Apply your stashed changes
+   - Verify all changes are present
+
    ```bash
-   # Task: Save and apply changes temporarily
-   git stash
-   git checkout hotfix
-   # Fix issue
-   git checkout feature
+   # Make changes to working directory
+   echo "New feature implementation" > feature.txt
+   git add feature.txt
+
+   # Stash changes
+   git stash save "WIP: New feature"
+
+   # Switch to different branch and make changes
+   git checkout fix/bug
+   echo "Bug fix" > bugfix.txt
+   git add bugfix.txt
+   git commit -m "Fix critical bug"
+
+   # Return to original branch and apply stashed changes
+   git checkout feature/new-feature
    git stash pop
+
+   # Verify changes
+   git status
+   git diff
    ```
 
 6. **Rebase Practice**
-   ```bash
-   # Task: Rebase feature branch onto main
-   git checkout feature
-   git rebase main
-   # Resolve conflicts
-   git add .
-   git rebase --continue
-   ```
+   - Create a feature branch with multiple commits
+   - Make some changes to main branch
+   - Rebase your feature branch onto main
+   - Resolve any conflicts during rebase
+   - Verify your feature branch history is clean
 
 ### Advanced Level
 
 7. **Interactive Rebase**
 
-   ```bash
-   # Task: Clean up commit history
-   git rebase -i HEAD~3
-   # Squash commits
-   # Edit commit messages
-   ```
+   - Create a branch with multiple commits
+   - Use interactive rebase to:
+     - Combine multiple commits into one
+     - Edit commit messages
+     - Reorder commits
+   - Verify the new commit history
 
 8. **Cherry-pick**
 
-   ```bash
-   # Task: Apply specific commit to different branch
-   git checkout main
-   git cherry-pick <commit-hash>
-   ```
+   - Identify a specific commit from another branch
+   - Apply that commit to your current branch
+   - Resolve any conflicts
+   - Verify the changes are correctly applied
 
 9. **Submodule Management**
 
-   ```bash
-   # Task: Add and update submodule
-   git submodule add <repository-url>
-   git submodule update --init --recursive
-   ```
+   - Add a Git submodule to your repository
+   - Make changes to the submodule
+   - Update the submodule reference
+   - Push changes to both main repository and submodule
 
 10. **Git Hooks**
-    ```bash
-    # Task: Set up pre-commit hook
-    # Create .git/hooks/pre-commit
-    # Add validation script
-    chmod +x .git/hooks/pre-commit
-    ```
+    - Create a pre-commit hook
+    - Implement basic validation in the hook
+    - Test the hook with valid and invalid commits
+    - Verify the hook prevents invalid commits
 
 ## Resources
 
